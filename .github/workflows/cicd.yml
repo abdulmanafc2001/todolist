@@ -1,0 +1,42 @@
+name: Deploy go application
+
+on: 
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Chckout source
+        uses: actions/checkout@v4
+      - name: Create .env file
+        run: |
+          cat <<EOF >> .env
+PORT=${{ secrets.PORT }}
+DATABASE_URL=${{ secrets.DB_URL }}
+EOF
+      - name: Login to docker hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build docker image
+        run: docker build -t manafabdulc/todos .
+      - name: Push image to dockerhub
+        run: docker push manafabdulc/todos:latest    
+        
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps: 
+      - name: pull the docker image
+        run: docker pull manafabdulc/todos
+      - name: Delete old container
+        run: docker rm -f todos
+      - name: Create folder for volume 
+        run: sudo mkdir -p /mnt/psql
+      - name: Remove postgres db
+        run: docker rm -f postgres-container    
+      - name: Run db container 
+        run:  docker run --name postgres-container -e POSTGRES_USER=manaf -e POSTGRES_PASSWORD=12345 -e POSTGRES_DB=todo -v /mnt/psql:/var/lib/postgresql/data -p 5432:5432 -d postgres:latest
+      - name: run application image
+        run: docker run -d -p 5050:5050 manafabdulc/todos           

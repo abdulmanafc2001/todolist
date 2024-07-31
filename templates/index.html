@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .button {
+            margin: 2px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+        }
+        .edit-button {
+            background-color: #4CAF50; /* Green */
+        }
+        .delete-button {
+            background-color: #f44336; /* Red */
+        }
+    </style>
+</head>
+<body>
+
+<h1>To-Do List</h1>
+
+<form action="/add-task" method="post">
+    <label for="task-number">Task Number:</label>
+    <input type="text" id="task-number" name="task-number" required>
+    <label for="description">Description:</label>
+    <input type="text" id="description" name="description" required>
+    <label for="completed">Completed:</label>
+    <input type="checkbox" id="completed" name="completed">
+    <input type="submit" value="Add Task">
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>Task Number</th>
+            <th>Description</th>
+            <th>Completed</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Example Task -->
+        {{ range .todo }}
+        <tr>
+            <td>{{.TaskNumber}}</td>
+            <td>{{.Description}}</td>
+            <td>{{.Completed}}</td>
+            <td>
+                <form action="/edit-task" method="post" style="display:inline;">
+                    <input type="hidden" name="task-number" value="1">
+                    <input type="submit" class="button edit-button" value="Edit">
+                </form>
+                <form action="/delete-task" method="post" style="display:inline;">
+                    <input type="hidden" name="task-number" value="1">
+                    <input type="submit" class="button delete-button" value="Delete">
+                </form>
+            </td>
+        </tr>
+        {{else}}
+        <tr>
+            <td colspan="3">No todos available.</td>
+        </tr>
+
+        {{ end }}
+    </tbody>
+</table>
+
+</body>
+</html>
