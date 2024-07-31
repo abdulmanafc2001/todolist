@@ -41,4 +41,5 @@ jobs:
       - name: Run db container 
         run:  docker run --name postgres-container --network my-network -e POSTGRES_USER=manaf -e POSTGRES_PASSWORD=12345 -e POSTGRES_DB=todo -v /mnt/psql:/var/lib/postgresql/data -p 5432:5432 -d postgres:latest
       - name: run application image
-        run: docker run --name todos --network my-network -e PORT=${{ secrets.PORT }} -e DB_URL=${{ secrets.DB_URL }} -p ${{ secrets.PORT }}:${{ secrets.PORT }} -d manafabdulc/todos            
+        run: docker run --name todos --network my-network -e PORT=${{ secrets.PORT }} -e DB_URL=${{ secrets.DB_URL }} -p ${{ secrets.PORT }}:${{ secrets.PORT }} -d manafabdulc/todos    
+                
