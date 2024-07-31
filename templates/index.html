@@ -44,8 +44,8 @@
     <input type="text" id="task-number" name="task-number" required>
     <label for="description">Description:</label>
     <input type="text" id="description" name="description" required>
-    <label for="completed">Completed:</label>
-    <input type="checkbox" id="completed" name="completed">
+    <label for="days">Day count:</label>
+    <input type="text" id="day-count" name="day-count" required>
     <input type="submit" value="Add Task">
 </form>
 
@@ -55,6 +55,7 @@
             <th>Task Number</th>
             <th>Description</th>
             <th>Completed</th>
+            <th>Day Count</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -65,6 +66,7 @@
             <td>{{.TaskNumber}}</td>
             <td>{{.Description}}</td>
             <td>{{.Completed}}</td>
+            <td>{{.DayCount}}</td>
             <td>
                 <form action="/edit-task" method="post" style="display:inline;">
                     <input type="hidden" name="task-number" value="1">
