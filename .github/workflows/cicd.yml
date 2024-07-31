@@ -34,6 +34,8 @@ jobs:
         run: sudo mkdir -p /mnt/psql
       - name: Remove postgres db
         run: docker rm -f postgres-container
+      - name: remove previous network
+        run: docker network rm my-network  
       - name: Create network
         run: docker network create my-network        
       - name: Run db container 
