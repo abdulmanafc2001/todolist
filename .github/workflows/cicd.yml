@@ -17,6 +17,8 @@ jobs:
           echo "DB_URL${{ secrets.DB_URL }}" >> .env
       - name: Login to docker hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: checking
+        run: echo $PORT  
       - name: Build docker image
         run: docker build -t manafabdulc/todos .
       - name: Push image to dockerhub
@@ -28,8 +30,6 @@ jobs:
     steps: 
       - name: pull the docker image
         run: docker pull manafabdulc/todos
-      - name: Checking 
-        run: echo ${{ secrets.PORT }}  
       - name: Delete old container
         run: docker rm -f todos
       - name: Create folder for volume 
