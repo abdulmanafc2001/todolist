@@ -2,7 +2,9 @@ package controllers
 
 import (
 	"log"
+	"strconv"
 
+	"github.com/abdulmanafc2001/todolist/pkg/models"
 	"github.com/abdulmanafc2001/todolist/pkg/repository/interfaces"
 	"github.com/gin-gonic/gin"
 )
@@ -24,4 +26,24 @@ func (c *Controller) Home(ctx *gin.Context) {
 	ctx.HTML(200, "index.html", gin.H{
 		"todo": todos,
 	})
+}
+
+func (c *Controller) CreateTodo(ctx *gin.Context) {
+	number, _ := strconv.Atoi(ctx.Request.FormValue("task-number"))
+	description := ctx.Request.FormValue("description")
+	count, _ := strconv.Atoi(ctx.Request.FormValue("day-count"))
+
+	todo := models.Todo{
+		TaskNumber:  number,
+		Description: description,
+		Completed:   "No",
+		DayCount:    count,
+	}
+
+	if err := c.Repo.Create(todo); err != nil {
+		log.Println(err)
+		return
+	}
+
+	ctx.Redirect(303, "/")
 }

@@ -24,6 +24,7 @@ func NewHandler(repo interfaces.Repository) *Handlers {
 func registerRoutes(mux *gin.Engine, ctrls *controllers.Controller) {
 	mux.LoadHTMLGlob("templates/*.html")
 	mux.GET("/", ctrls.Home)
+	mux.POST("/add-task", ctrls.CreateTodo)
 }
 
 func (h *Handlers) Run() error {
