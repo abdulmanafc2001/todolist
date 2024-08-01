@@ -25,23 +25,23 @@ jobs:
     runs-on: self-hosted
     steps: 
       - name: Delete running container
-        run: docker rm -f $(docker ps -aq)
+        run: sudo docker rm -f $(docker ps -aq)
       - name: Delete all images
-        run: docker rmi $(docker images -aq)  
+        run: sudo docker rmi $(docker images -aq)  
       - name: pull the docker image
-        run: docker pull manafabdulc/todos
+        run: sudo docker pull manafabdulc/todos
       - name: Delete old container
-        run: docker rm -f todos
+        run: sudo docker rm -f todos
       - name: Create folder for volume 
         run: sudo mkdir -p /mnt/psql
       - name: Remove postgres db
-        run: docker rm -f postgres-container
+        run: sudo docker rm -f postgres-container
       - name: remove previous network
-        run: docker network rm my-network  
+        run: sudo docker network rm my-network  
       - name: Create network
-        run: docker network create my-network        
+        run: sudo docker network create my-network        
       - name: Run db container 
-        run:  docker run --name postgres-container --network my-network -e POSTGRES_USER=${{secrets.DB_USER}} -e POSTGRES_PASSWORD=${{secrets.DB_PASSWORD}} -e POSTGRES_DB=${{secrets.DB_NAME}} -v /mnt/psql:/var/lib/postgresql/data -p 5432:5432 -d postgres:16-alpine3.20
+        run:  sudo docker run --name postgres-container --network my-network -e POSTGRES_USER=${{secrets.DB_USER}} -e POSTGRES_PASSWORD=${{secrets.DB_PASSWORD}} -e POSTGRES_DB=${{secrets.DB_NAME}} -v /mnt/psql:/var/lib/postgresql/data -p 5432:5432 -d postgres:16-alpine3.20
       - name: run application image
-        run: docker run --name todos --network my-network -e PORT=${{ secrets.PORT }} -e DB_URL=${{ secrets.DB_URL }} -p ${{ secrets.PORT }}:${{ secrets.PORT }} -d manafabdulc/todos  
-          
+        run: sudo docker run --name todos --network my-network -e PORT=${{ secrets.PORT }} -e DB_URL=${{ secrets.DB_URL }} -p ${{ secrets.PORT }}:${{ secrets.PORT }} -d manafabdulc/todos  
+
