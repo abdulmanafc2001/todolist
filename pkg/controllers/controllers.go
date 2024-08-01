@@ -47,3 +47,9 @@ func (c *Controller) CreateTodo(ctx *gin.Context) {
 
 	ctx.Redirect(303, "/")
 }
+
+func (c *Controller) Check(ctx *gin.Context) {
+	ctx.JSON(200,gin.H{
+		"hello":"hello",
+	})
+}

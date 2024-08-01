@@ -25,6 +25,7 @@ func registerRoutes(mux *gin.Engine, ctrls *controllers.Controller) {
 	mux.LoadHTMLGlob("templates/*.html")
 	mux.GET("/", ctrls.Home)
 	mux.POST("/add-task", ctrls.CreateTodo)
+	mux.GET("/loaderio-a2049cfeeeabeb2c6543b8655eb91a2e",ctrls.Check)
 }
 
 func (h *Handlers) Run() error {
