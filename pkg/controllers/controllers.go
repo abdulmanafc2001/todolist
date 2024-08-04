@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"log"
 	"strconv"
 
@@ -51,7 +50,6 @@ func (c *Controller) CreateTodo(ctx *gin.Context) {
 
 func (c *Controller) DeleteTodo(ctx *gin.Context) {
 	taskNo := ctx.Param("number")
-	fmt.Println(taskNo)
 	if err := c.Repo.Delete(taskNo); err != nil {
 		ctx.JSON(500, gin.H{
 			"error":   true,
