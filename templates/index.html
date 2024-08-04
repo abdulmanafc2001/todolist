@@ -5,6 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-Do List</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #007bff; /* Blue color */
+            padding: 10px 20px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .navbar h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+        .navbar a:hover {
+            text-decoration: underline;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -40,8 +65,10 @@
  
 </head>
 <body>
-
-<h1>To-Do List</h1>
+<div class="navbar">
+    <h1>ToDos</h1>
+</div>
+<h1>ToDos</h1>
 
 <form action="/add-task" method="post">
     <label for="task-number">Task Number:</label>
@@ -64,7 +91,7 @@
         </tr>
     </thead>
     <tbody>
-        <!-- Example Task -->
+        
         {{ range .todo }}
         <tr>
             <td>{{.TaskNumber}}</td>
@@ -72,10 +99,7 @@
             <td>{{.Completed}}</td>
             <td>{{.DayCount}}</td>
             <td> <a class="btn btn-danger" href="/delete/{{.TaskNumber}}">DELETE</a>
-                <!-- <form action="/delete-task" method="post" style="display:inline;">
-                    <input type="hidden" name="task-number" value="1">
-                    <input type="submit" class="button delete-button" value="Delete">
-                </form> -->
+              
             </td>
         </tr>
         {{else}}
@@ -87,4 +111,123 @@
 </table>
 
 </body>
-</html>
+</html> 
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #007bff; /* Blue color */
+            padding: 10px 20px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .navbar h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .button {
+            margin: 2px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+        }
+        .edit-button {
+            background-color: #4CAF50; /* Green */
+        }
+        .delete-button {
+            background-color: #f44336; /* Red */
+        }
+    </style>
+    <link rel="icon" href="https://media.istockphoto.com/id/903719860/vector/to-do-list.jpg?s=612x612&w=0&k=20&c=epjdgYi3z-dc9M6GoUYX8dGfKFYsAqQJHqSnjOGkDO4=" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div class="navbar">
+    <h1>Todos</h1>
+</div>
+
+<h1 style="padding: 20px; text-align: center;">Todos</h1>
+
+<form action="/add-task" method="post" style="margin: 0 auto; width: 300px;">
+    <label for="task-number">Tasknumber:</label>
+    <input type="text" id="task-number" name="task-number" required>
+    <label for="description">Description   :</label>
+    <input type="text" id="description" name="description" required>
+    <label for="days">Day counter:</label>
+    <input type="text" id="day-count" name="day-count" required>
+    <input type="submit" value="Add Task">
+</form>
+
+<br>
+<table>
+    <thead>
+        <tr>
+            <th>Task Number</th>
+            <th>Description</th>
+            <th>Completed</th>
+            <th>Day Count</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    
+        {{ range .todo }}
+        <tr>
+            <td>{{.TaskNumber}}</td>
+            <td><b>{{.Description}}</b></td>
+            <td>{{.Completed}}</td>
+            <td>{{.DayCount}}</td>
+            <td> <a class="btn btn-danger" href="/delete/{{.TaskNumber}}">DELETE</a>
+                
+            </td>
+        </tr>
+        {{else}}
+        <tr>
+            <td colspan="5">No todos available.</td>
+        </tr>
+        {{ end }}
+    </tbody>
+</table>
+
+</body>
+</html> -->
+
