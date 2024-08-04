@@ -9,6 +9,7 @@ RUN go build -o main ./cmd
 FROM alpine 
 WORKDIR /app
 COPY --from=build /app/main .
+COPY --from=build /app/templates ./templates
 RUN chmod +x main
 EXPOSE 5050
 CMD [ "./main" ]
