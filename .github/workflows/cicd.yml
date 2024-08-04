@@ -41,7 +41,7 @@ jobs:
       - name: Create network
         run: sudo docker network create my-network        
       - name: Run db container 
-        run:  sudo docker run --name postgres-container --network my-network -e POSTGRES_USER=${{secrets.DB_USER}} -e POSTGRES_PASSWORD=${{secrets.DB_PASSWORD}} -e POSTGRES_DB=${{secrets.DB_NAME}} -v /mnt/psql:/var/lib/postgresql/data -p 5432:5432 -d postgres:16-alpine3.20
+        run:  sudo docker run --init --name postgres-container --network my-network -e POSTGRES_USER=${{secrets.DB_USER}} -e POSTGRES_PASSWORD=${{secrets.DB_PASSWORD}} -e POSTGRES_DB=${{secrets.DB_NAME}} -v /mnt/psql:/var/lib/postgresql/data -p 5432:5432 -d postgres:16-alpine3.20
       - name: run application image
-        run: sudo docker run --name todos --network my-network -e PORT=${{ secrets.PORT }} -e DB_URL=${{ secrets.DB_URL }} -p ${{ secrets.PORT }}:${{ secrets.PORT }} -d manafabdulc/todos  
+        run: sudo docker run --init --name todos --network my-network -e PORT=${{ secrets.PORT }} -e DB_URL=${{ secrets.DB_URL }} -p ${{ secrets.PORT }}:${{ secrets.PORT }} -d manafabdulc/todos  
 
