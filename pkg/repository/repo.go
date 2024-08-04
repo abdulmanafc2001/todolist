@@ -31,3 +31,11 @@ func (r *Repository) List() ([]models.Todo, error) {
 	db := r.DB.Find(&todos)
 	return todos, db.Error
 }
+
+func (r *Repository) Delete(number string) error {
+	db := r.DB.Where("task_number = ?", number).Delete(&models.Todo{})
+	if db.Error != nil {
+		return db.Error
+	}
+	return nil
+}

@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"log"
 	"strconv"
 
@@ -48,8 +49,15 @@ func (c *Controller) CreateTodo(ctx *gin.Context) {
 	ctx.Redirect(303, "/")
 }
 
-func (c *Controller) Check(ctx *gin.Context) {
-	ctx.JSON(200,gin.H{
-		"hello":"hello",
-	})
+func (c *Controller) DeleteTodo(ctx *gin.Context) {
+	taskNo := ctx.Param("number")
+	fmt.Println(taskNo)
+	if err := c.Repo.Delete(taskNo); err != nil {
+		ctx.JSON(500, gin.H{
+			"error":   true,
+			"message": err.Error(),
+		})
+		return
+	}
+	ctx.Redirect(303, "/")
 }
