@@ -67,7 +67,7 @@
         {{ range .todo }}
         <tr>
             <td>{{.TaskNumber}}</td>
-            <td>{{.Description}}</td>
+            <td><b>{{.Description}}</b></td>
             <td>{{.Completed}}</td>
             <td>{{.DayCount}}</td>
             <td> <a class="btn btn-danger" href="/delete/{{.TaskNumber}}">DELETE</a>
