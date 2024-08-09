@@ -1,4 +1,4 @@
-name: Deploy go application
+name: Deploy Go Application
 
 on: 
   push:
@@ -9,15 +9,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps: 
-      - name: Chckout source
+      - name: Checkout source
         uses: actions/checkout@v4
-      - name: Login to docker hub
+      - name: Login to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-      - name: checking
-        run: echo $PORT  
-      - name: Build docker image
+      - name: Check PORT
+        run: echo ${{ secrets.PORT }}
+      - name: Build Docker image
         run: docker build -t manafabdulc/todos .
-      - name: Push image to dockerhub
+      - name: Push image to Docker Hub
         run: docker push manafabdulc/todos:latest    
 
   deploy:
@@ -25,24 +25,22 @@ jobs:
     runs-on: self-hosted
     steps: 
       - name: Delete running container
-        run: sudo docker rm -f $(sudo docker ps -aq)
+        run: sudo docker rm -f $(sudo docker ps -aq) || true
       - name: Delete all images
-        run: sudo docker rmi $(sudo docker images -aq)  
-      - name: pull the docker image
+        run: sudo docker rmi $(sudo docker images -aq) || true  
+      - name: Pull the Docker image
         run: sudo docker pull manafabdulc/todos
       - name: Delete old container
-        run: sudo docker rm -f todos
+        run: sudo docker rm -f todos || true
       - name: Create folder for volume 
         run: sudo mkdir -p /mnt/psql
-      - name: Remove postgres db
-        run: sudo docker rm -f postgres-container
-      - name: remove previous network
-        run: sudo docker network rm my-network  
+      - name: Remove Postgres DB
+        run: sudo docker rm -f postgres-container || true
+      - name: Remove previous network
+        run: sudo docker network rm my-network || true  
       - name: Create network
         run: sudo docker network create my-network        
-      - name: Run db container 
-        run:  sudo docker run --init --name postgres-container --network my-network -e POSTGRES_USER=${{secrets.DB_USER}} -e POSTGRES_PASSWORD=${{secrets.DB_PASSWORD}} -e POSTGRES_DB=${{secrets.DB_NAME}} -v /mnt/psql:/var/lib/postgresql/data -p 5432:5432 -d postgres:16-alpine3.20
-      - name: run application image
-        run: sudo docker run --init --name todos --network my-network -e PORT=${{ secrets.PORT }} -e DB_URL=${{ secrets.DB_URL }} -e SECRET_KEY=${{ secret.SECRET_KEY}} -p ${{ secrets.PORT }}:${{ secrets.PORT }} -d manafabdulc/todos  
-        
-
+      - name: Run DB container 
+        run:  sudo docker run --init --name postgres-container --network my-network -e POSTGRES_USER=${{ secrets.DB_USER }} -e POSTGRES_PASSWORD=${{ secrets.DB_PASSWORD }} -e POSTGRES_DB=${{ secrets.DB_NAME }} -v /mnt/psql:/var/lib/postgresql/data -p 5432:5432 -d postgres:16-alpine3.20
+      - name: Run application image
+        run: sudo docker run --init --name todos --network my-network -e PORT=${{ secrets.PORT }} -e DB_URL=${{ secrets.DB_URL }} -e SECRET_KEY=${{ secrets.SECRET_KEY }} -p ${{ secrets.PORT }}:${{ secrets.PORT }} -d manafabdulc/todos  
