@@ -93,6 +93,7 @@ func (c *Controller) Login(ctx *gin.Context) {
 		return
 	}
 	token, err := helper.CreateToken(username, "User")
+	fmt.Println(token)
 	if err != nil {
 		ctx.HTML(500, "login.html", gin.H{
 			"message": "something failed",
@@ -122,22 +123,26 @@ func (c *Controller) Login(ctx *gin.Context) {
 func UserLoged(c *gin.Context) (bool, string) {
 	session, _ := c.Get("session")
 	if session == nil {
+		fmt.Println("No session found")
 		return false, ""
 	}
 
 	sess, ok := session.(*sessions.Session)
 	if !ok {
+		fmt.Println("Session type assertion failed")
 		return false, ""
 	}
 
 	token, tokenOk := sess.Values["token"].(string)
 	user, userOk := sess.Values["user"].(string)
 
+	fmt.Println("Session Values:", sess.Values)
+	fmt.Println("Token Exists:", tokenOk, "Token:", token)
+	fmt.Println("User Exists:", userOk, "User:", user)
 
 	if !tokenOk || !userOk {
 		return false, ""
 	}
-	 _ = token
 
 	return true, user
 }
