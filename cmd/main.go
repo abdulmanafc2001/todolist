@@ -15,9 +15,10 @@ func main() {
 		log.Fatalln(err)
 	}
 	log.Println("Connected to db", db.Name())
-	repo := repository.NewRepository(db)
+	todo := repository.NewTodo(db)
+	user := repository.NewUser(db)
 
-	handlers := handlers.NewHandler(repo)
+	handlers := handlers.NewHandler(todo, user)
 
 	handlers.Run()
 }
